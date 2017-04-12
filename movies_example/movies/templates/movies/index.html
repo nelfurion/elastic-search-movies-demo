@@ -1,0 +1,41 @@
+{% extends 'movies/base.html' %}
+{% block content %}
+{% load staticfiles%}
+
+<form action="/" method="get">
+    <div class="form-group">
+        <label for="searchInput">Search movies</label>
+        <input type="text" name="search" class="form-control" id="searchInput" aria-describedby="search" placeholder="Search">
+        <input type="submit" class="btn btn-primary" value="Search" />
+    </div>
+</form>
+
+    {% for movie in movies %}
+        <div class="row">
+            <div class="index-well well well-lg col-md-8 col-md-offset-2">
+                <div class="col-md-3" style="margin-top:70px; transform:translateY(-50%);">
+                    <strong>{{ movie.title }}</strong>
+                </div>
+                <div class="col-md-9">
+                    <p><strong>Description: </strong> {{movie.description}}</p>
+                    <p><strong>Release year: </strong> {{movie.release_year}}</p>
+                    <p>
+                        <strong>Actors: </strong>
+                        {{movie.actor_string}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% if pages_count > 3 %}
+        <a href="?skip={{last_skip}}&take={{10}}">{{last_page}}</a>
+        <a href="?skip={{skipped}}&take={{10}}">{{current_page}}</a>
+        <a href="?skip={{next_skip}}&take={{10}}">{{next_page}}</a>
+    {% elif pages_count > 0 %}
+        {% for i in pages_range %}
+            <a href="?skip={{i}}&take={{10}}">{{i}}</a>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}
